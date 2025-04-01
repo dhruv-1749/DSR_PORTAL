@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Desktop Register System</title>
+    <style>
+        /* Base body styling with gradient background */
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        /* Main container styling */
+        .container {
+            width: 420px;
+            padding: 30px;
+            background-color: #fff;
+            border-radius: 12px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            position: relative;
+        }
+
+        .container:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.15);
+        }
+
+        /* Main heading styling */
+        h1 {
+            text-align: center;
+            color: #2c3e50;
+            margin-bottom: 30px;
+            font-size: 28px;
+            font-weight: 600;
+            position: relative;
+            padding-bottom: 15px;
+        }
+
+        h1::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 3px;
+            background: linear-gradient(90deg, #4CAF50, #2E7D32);
+            border-radius: 3px;
+        }
+
+        /* Back button styling */
+        .back-button {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            background-color: #f8f9fa;
+            border: 1px solid #ddd;
+            color: #555;
+            padding: 8px 16px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .back-button:hover {
+            background-color: #e9ecef;
+            transform: translateX(-3px);
+        }
+
+        /* Dropdown container styling */
+        .dropdown-container {
+            margin-bottom: 25px;
+            text-align: left;
+        }
+
+        /* Label styling */
+        label {
+            display: block;
+            font-size: 16px;
+            margin-bottom: 8px;
+            color: #555;
+            font-weight: 500;
+        }
+
+        /* Custom dropdown styling */
+        select {
+            padding: 12px 15px;
+            font-size: 16px;
+            width: 100%;
+            border-radius: 8px;
+            border: 1px solid #ddd;
+            background-color: #f9f9f9;
+            appearance: none;
+            background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+            background-repeat: no-repeat;
+            background-position: right 10px center;
+            background-size: 1em;
+            transition: border 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        select:focus {
+            outline: none;
+            border-color: #4CAF50;
+            box-shadow: 0 0 0 3px rgba(76, 175, 80, 0.2);
+        }
+
+        /* Main button styling */
+        #submitBtn {
+            background: linear-gradient(135deg, #4CAF50, #2E7D32);
+            color: white;
+            padding: 14px 20px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: 500;
+            width: 100%;
+            margin-top: 20px;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+            letter-spacing: 0.5px;
+        }
+
+        #submitBtn:hover {
+            background: linear-gradient(135deg, #43A047, #1B5E20);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(46, 125, 50, 0.3);
+        }
+
+        #submitBtn:active {
+            transform: translateY(0);
+        }
+
+        /* Secondary button styling (smaller button) */
+        .secondary-button {
+            background: #f8f9fa;
+            color: #555;
+            padding: 10px 15px;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 500;
+            width: auto;
+            margin-top: 15px;
+            transition: all 0.3s ease;
+            display: inline-block;
+        }
+
+        .secondary-button:hover {
+            background: #e9ecef;
+            border-color: #ccc;
+        }
+
+        /* Button container for alignment */
+        .button-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+            margin-top: 20px;
+        }
+
+        /* Hidden class for result section */
+        .hidden {
+            display: none;
+        }
+
+        /* Result section styling */
+        .result {
+            margin-top: 25px;
+            padding: 20px;
+            background-color: #f8f9fa;
+            border-radius: 8px;
+            border-left: 4px solid #4CAF50;
+            text-align: left;
+            animation: fadeIn 0.5s ease;
+        }
+
+        /* Result heading */
+        .result h3 {
+            color: #2c3e50;
+            margin-top: 0;
+            margin-bottom: 10px;
+        }
+
+        /* Selected consumable text */
+        #selectedConsumable {
+            color: #555;
+            font-size: 15px;
+        }
+
+        /* Fade-in animation */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+</head>
+<body>
+    <!-- Main container -->
+    <div class="container">
+        <!-- Back button -->
+        <button class="back-button" onclick="window.location.href='HOME.php'">
+            ← Back
+        </button>
+
+        <h1>Deadstock Register System</h1>
+
+        <!-- Dropdown for selecting an option -->
+        <div class="dropdown-container">
+            <label for="consumable">Select Option:</label>
+            <select id="consumable" name="consumable">
+                <option value="transfer.html">Transfer</option>
+                <option value="receive.html">Receive</option>
+                <option value="scrape.html">Scrape</option>
+            </select>
+        </div>
+
+        <!-- Button container -->
+        <div class="button-container">
+            <!-- Main Continue button -->
+            <button id="submitBtn">Continue →</button>
+            
+            <!-- New small secondary button
+            <button class="secondary-button" onclick="window.location.href='admin.html'">
+                Admin Panel
+            </button> -->
+        </div>
+
+        <!-- Result section (hidden by default) -->
+        <div id="result" class="result hidden">
+            <h3>Selection Result</h3>
+            <p id="selectedConsumable">Consumable: </p>
+        </div>
+    </div>
+
+    <!-- Original JavaScript logic preserved exactly -->
+    <script>
+        // Add event listener to the submit button
+        document.getElementById('submitBtn').addEventListener('click', function () {
+            // Get the selected value from the dropdown
+            const selectedValue = document.getElementById('consumable').value;
+
+            // Show the result section
+            const resultDiv = document.getElementById('result');
+            resultDiv.classList.remove('hidden');
+
+            // Display the selected value
+            document.getElementById('selectedConsumable').textContent = `Consumable: ${selectedValue}`;
+
+            // Redirect to the selected page
+            window.location.href = selectedValue;
+        });
+    </script>
+</body>
+</html>

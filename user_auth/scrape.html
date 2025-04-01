@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Scrap Items</title>
+    <style>
+        /* General body styling */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+    
+        /* Container styling */
+        .container {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            width: 80%;
+            max-width: 800px;
+        }
+    
+        /* Heading styling */
+        h1 {
+            text-align: center;
+            color: #333;
+            margin-bottom: 20px;
+        }
+    
+        /* Back button styling */
+        .back-button {
+            background-color: #6c757d;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-bottom: 20px;
+        }
+    
+        .back-button:hover {
+            background-color: #5a6268;
+        }
+    
+        /* Table styling */
+        .table-container {
+            width: 100%;
+            overflow-x: auto;
+        }
+    
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+    
+        th, td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+    
+        th {
+            background-color: #f8f9fa;
+            font-weight: bold;
+            color: #333;
+        }
+    
+        /* Input and textarea styling */
+        .editable {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+    
+        textarea.editable {
+            resize: vertical;
+            height: 60px;
+        }
+    
+        /* Select dropdown styling */
+        select {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            background-color: white;
+            cursor: pointer;
+        }
+    
+        /* Button container styling */
+        .button-container {
+            display: flex;
+            justify-content: flex-end;
+            gap: 10px;
+        }
+    
+        /* Add and Submit button styling */
+        .add-button {
+            background-color: #007bff;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+    
+        .add-button:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Scrap</h1>
+
+        <!-- Back button -->
+        <a href="frontpage.html"><button class="back-button">Back</button></a>
+
+        <!-- Form for submitting data -->
+        <form action="scrap_items.php" method="post">
+            <div class="table-container">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>No.</th>
+                            <th>Item Description</th>
+                            <th>QTY.</th>
+                            <th>Remark</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- Initial row -->
+                        <tr>
+                            <td>1</td>
+                            <td>
+                                <input type="text" id="item_description_1" name="item_description[]" value=""  placeholder="items"  class="editable">
+                            </td>
+                            <td>
+                                <select id="quantity_1" name="quantity[]"> <!-- Updated from 'qty' to 'quantity' -->
+                                    <option value="1">1</option>
+                                    <option value="2">2</option>
+                                    <option value="3">3</option>
+                                    <option value="4">4</option>
+                                    <option value="5">5</option>
+                                    <option value="6">6</option>
+                                    <option value="7">7</option>
+                                    <option value="8">8</option>
+                                    <option value="9">9</option>
+                                    <option value="10">10</option>
+                                </select>
+                            </td>
+                            <td>
+                                <textarea id="remark_1" name="remark[]" class="editable" placeholder="Remark"></textarea>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Add Item button -->
+            <div class="button-container">
+                <button type="button" onclick="addItem()" class="add-button">Add Item</button>
+                <button type="submit" class="add-button">Submit</button>
+            </div>
+        </form>
+    </div>
+
+    <script>
+        // Function to add a new row to the table
+        function addItem() {
+            const table = document.querySelector("table tbody");
+            const newRow = table.insertRow();
+
+            // Auto-increment the No. column
+            const noCell = newRow.insertCell();
+            noCell.textContent = table.rows.length;
+
+            // Item Description (editable)
+            const descriptionCell = newRow.insertCell();
+            descriptionCell.innerHTML = '<input type="text" id="item_description_' + table.rows.length + '" name="item_description[]" class="editable">';
+
+            // QTY (dropdown from 1 to 10)
+            const qtyCell = newRow.insertCell();
+            qtyCell.innerHTML = `
+                <select id="quantity_` + table.rows.length + `" name="quantity[]"> <!-- Updated from 'qty' to 'quantity' -->
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    <option value="4">4</option>
+                    <option value="5">5</option>
+                    <option value="6">6</option>
+                    <option value="7">7</option>
+                    <option value="8">8</option>
+                    <option value="9">9</option>
+                    <option value="10">10</option>
+                </select>
+            `;
+
+            // Remark (editable)
+            const remarkCell = newRow.insertCell();
+            remarkCell.innerHTML = '<textarea id="remark_' + table.rows.length + '" name="remark[]" class="editable"></textarea>';
+        }
+    </script>
+</body>
+</html>

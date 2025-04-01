@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Receive Item | Inventory System</title>
+  <style>
+    /* Professional Color Scheme */
+    :root {
+      --primary: #2c3e50;
+      --secondary: #34495e;
+      --accent: #3498db;
+      --success: #27ae60;
+      --light: #ecf0f1;
+      --dark: #2c3e50;
+      --text: #333333;
+      --border: #dfe6e9;
+      --bg-primary: #f8fafc;
+      --bg-secondary: #e2e8f0;
+    }
+
+    /* Base Styles with Professional Background */
+    body {
+      font-family: 'Roboto', 'Helvetica Neue', Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: var(--bg-primary);
+      background-image: linear-gradient(
+        135deg,
+        var(--bg-primary) 0%,
+        var(--bg-secondary) 100%
+      );
+      color: var(--text);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      line-height: 1.6;
+    }
+
+    /* Professional Container */
+    .container {
+      width: 520px;
+      background-color: white;
+      padding: 30px;
+      border-radius: 8px;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+      border: 1px solid var(--border);
+    }
+
+    /* Header Section */
+    h1 {
+      text-align: center;
+      margin-bottom: 25px;
+      color: var(--primary);
+      font-weight: 500;
+      font-size: 1.8rem;
+      position: relative;
+      padding-bottom: 10px;
+    }
+
+    h1::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 80px;
+      height: 3px;
+      background-color: var(--accent);
+    }
+
+    /* Back Button */
+    .back-button {
+      background-color: var(--light);
+      border: 1px solid var(--border);
+      color: var(--dark);
+      padding: 8px 16px;
+      border-radius: 4px;
+      cursor: pointer;
+      margin-bottom: 20px;
+      font-size: 0.9rem;
+      transition: all 0.2s ease;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+    }
+
+    .back-button:hover {
+      background-color: #e0e0e0;
+      transform: translateX(-2px);
+    }
+
+    /* Form Sections */
+    .form-section {
+      margin-bottom: 20px;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 8px;
+      color: var(--dark);
+      font-weight: 500;
+      font-size: 0.95rem;
+    }
+
+    /* Form Inputs */
+    select,
+    input[type="text"],
+    input[type="number"],
+    input[type="date"],
+    input[type="file"] {
+      width: 100%;
+      padding: 12px;
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      box-sizing: border-box;
+      font-size: 0.95rem;
+      transition: all 0.2s ease;
+      background-color: white;
+    }
+
+    select {
+      appearance: none;
+      background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+      background-repeat: no-repeat;
+      background-position: right 12px center;
+      background-size: 16px;
+    }
+
+    select:focus,
+    input:focus {
+      border-color: var(--accent);
+      outline: none;
+      box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.2);
+    }
+
+    /* Submit Button */
+    .request-button {
+      background-color: var(--success);
+      color: white;
+      padding: 12px 20px;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      width: 100%;
+      font-size: 1rem;
+      font-weight: 500;
+      margin-top: 15px;
+      transition: all 0.2s ease;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .request-button:hover {
+      background-color: #219653;
+      transform: translateY(-2px);
+      box-shadow: 0 4px 8px rgba(39, 174, 96, 0.2);
+    }
+
+    .request-button:active {
+      transform: translateY(0);
+    }
+
+    /* Summary Section */
+    .summary-section {
+      margin-top: 25px;
+      padding-top: 15px;
+      border-top: 1px solid var(--border);
+    }
+
+    .summary-section input {
+      background-color: #f8f9fa;
+    }
+
+    /* Responsive Design */
+    @media screen and (max-width: 600px) {
+      .container {
+        width: 90%;
+        padding: 20px;
+      }
+      
+      h1 {
+        font-size: 1.5rem;
+      }
+    }
+
+    /* Animation */
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .form-section {
+      animation: fadeIn 0.3s ease forwards;
+      opacity: 0;
+    }
+
+    .form-section:nth-child(1) { animation-delay: 0.1s; }
+    .form-section:nth-child(2) { animation-delay: 0.2s; }
+    .form-section:nth-child(3) { animation-delay: 0.3s; }
+    .form-section:nth-child(4) { animation-delay: 0.4s; }
+    .form-section:nth-child(5) { animation-delay: 0.5s; }
+    .form-section:nth-child(6) { animation-delay: 0.6s; }
+    .form-section:nth-child(7) { animation-delay: 0.7s; }
+  </style>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500&display=swap" rel="stylesheet">
+</head>
+<body>
+  <div class="container">
+    <h1>Receive Inventory Item</h1>
+    <button class="back-button" onclick="goBack()">
+      ← Back
+    </button>
+
+    <form action="received_items.php" method="POST" onsubmit="return validateForm()" enctype="multipart/form-data">
+      <!-- Consumable List -->
+      <div class="form-section">
+        <label for="consumableList">Consumable Category:</label>
+        <select id="consumableList" name="consumable_list" required onchange="updateItemDescription()">
+          <option value="">Select Category</option>
+          <option value="stationery">Stationery</option>
+          <option value="cleaning">Cleaning Supplies</option>
+          <option value="lab">Lab Equipment</option>
+          <option value="it">IT Supplies</option>
+          <option value="other">Other</option>
+        </select>
+      </div>
+
+      <!-- Item Description -->
+      <div class="form-section">
+        <label for="itemDescription">Item Description:</label>
+        <select id="itemDescription" name="item_description" required>
+          <option value="">Select Item</option>
+        </select>
+      </div>
+
+      <!-- Quantity -->
+      <div class="form-section">
+        <label for="quantity">Quantity:</label>
+        <input type="number" id="quantity" name="quantity" value="1" min="1" required>
+      </div>
+
+      <!-- Transfer Date -->
+      <div class="form-section">
+        <label for="transferDate">Receive Date:</label>
+        <input type="date" id="transferDate" name="transferDate" required>
+      </div>
+
+      <!-- Total Price -->
+      <div class="form-section">
+        <label for="totalPrice">Total Price (₹):</label>
+        <input type="text" id="totalPrice" name="total_price" required>
+      </div>
+
+      <!-- Branch -->
+      <div class="form-section">
+        <label for="branch">Department:</label>
+        <select id="branch" name="branch" required>
+          <option value="CS">Computer Science</option>
+          <option value="IT">Information Technology</option>
+          <option value="ME">Mechanical</option>
+          <option value="CE">Civil</option>
+          <option value="EE">Electrical</option>
+          <option value="E&TC">Electronics</option>
+        </select>
+      </div>
+
+      <!-- DSR Number -->
+      <div class="form-section">
+        <label for="itemImage">DSR Number:</label>
+        <input type="text" id="itemImage" name="item_image" placeholder="Enter DSR reference number">
+      </div>
+
+      <!-- Submit Button -->
+      <div class="form-section">
+        <button type="submit" class="request-button">Record Receive</button>
+      </div>
+    </form>
+  </div>
+
+  <script>
+    // Data for item descriptions based on consumable list
+    const itemDescriptions = {
+      stationery: ["Pen", "Pencil", "Notebook", "Eraser", "Stapler", "Marker", "Highlighter", "Sticky Notes", "Paper Clips", "Envelopes"],
+      cleaning: ["Broom", "Mop", "Detergent", "Disinfectant", "Sponge", "Gloves", "Trash Bags", "Dustpan", "Scrubber", "Glass Cleaner"],
+      lab: ["Microscope", "Bunsen Burner", "Test Tubes", "Beakers", "Pipettes", "Thermometer", "Centrifuge", "Petri Dishes", "Safety Goggles", "Lab Coat"],
+      it: ["Laptop", "Monitor", "Keyboard", "Mouse", "Printer", "Router", "Hard Drive", "USB Cable", "Headphones", "Webcam"],
+      other: ["Toolbox", "Screwdriver", "Hammer", "Wrench", "Tape Measure", "Drill", "Pliers", "Level", "Utility Knife", "Flashlight"],
+    };
+
+    // Function to update the item description dropdown based on the selected consumable list
+    function updateItemDescription() {
+      const consumableList = document.getElementById("consumableList").value;
+      const itemDescriptionDropdown = document.getElementById("itemDescription");
+
+      // Clear existing options
+      itemDescriptionDropdown.innerHTML = '<option value="">Select Item</option>';
+
+      // Add new options based on the selected consumable list
+      if (consumableList && itemDescriptions[consumableList]) {
+        itemDescriptions[consumableList].forEach((item) => {
+          const option = document.createElement("option");
+          option.value = item.toLowerCase().replace(/ /g, "_");
+          option.textContent = item;
+          itemDescriptionDropdown.appendChild(option);
+        });
+      }
+    }
+
+    // Function to validate the form before submission
+    function validateForm() {
+      const consumableList = document.getElementById("consumableList").value;
+      const itemDescription = document.getElementById("itemDescription").value;
+      const quantity = document.getElementById("quantity").value;
+      const transferDate = document.getElementById("transferDate").value;
+      const totalPrice = document.getElementById("totalPrice").value;
+      const branch = document.getElementById("branch").value;
+      const itemImage = document.getElementById("itemImage").files[0];
+
+      if (!consumableList || !itemDescription || !quantity || !transferDate || !totalPrice || !branch) {
+        alert("Please fill out all required fields.");
+        return false;
+      }
+
+      if (totalPrice <= 0) {
+        alert("Please enter a valid total price.");
+        return false;
+      }
+
+      return true;
+    }
+
+    // Function to go back to the previous page
+    function goBack() {
+      window.location.href="frontpage.html";
+    }
+
+    // Set today's date as default
+    document.addEventListener('DOMContentLoaded', function() {
+      const today = new Date().toISOString().split('T')[0];
+      document.getElementById('transferDate').value = today;
+    });
+  </script>
+</body>
+</html>
